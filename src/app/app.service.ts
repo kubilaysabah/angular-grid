@@ -7,12 +7,14 @@ import type Response from './app.interface'
   providedIn: "root",
 })
 export class AppService {
+  baseURL: string = 'http://localhost:3000/'
+
   constructor(
     private http: HttpClient
   ) {
   }
 
   data(): Observable<Response> {
-    return this.http.get<Response>("http://localhost:3000")
+    return this.http.get<Response>(this.baseURL + "dataTable");
   }
 }

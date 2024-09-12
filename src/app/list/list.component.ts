@@ -6,6 +6,9 @@ import { AppService } from '@app/app.service'
   selector: 'app-list',
   standalone: true,
   imports: [],
+  providers: [
+    AppService
+  ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
