@@ -14,7 +14,7 @@ export class AppService {
   ) {
   }
 
-  data(): Observable<Response> {
-    return this.http.get<Response>(this.baseURL + "dataTable");
+  customers(): Observable<Response['dataTable']> {
+    return this.http.get<Response['dataTable']>(this.baseURL + "dataTable")
   }
 }

@@ -1,3 +1,53 @@
-<section>
+<main>
+  <h1 class="title roboto-bold">{{ "SİPARİŞ KONTROL EKRANI" }}</h1>
 
-</section>
+  <form>
+    <section class="form-group">
+      <img src="/icons/search.svg" alt="Gönderi Numarası" width="20" height="20" />
+      <input type="text" placeholder="Gönderi Numarası" />
+    </section>
+    <section class="form-group">
+      <img src="/icons/search.svg" alt="Sipariş Numarası" width="20" height="20" />
+      <input type="text" placeholder="Sipariş Numarası" />
+    </section>
+    <section class="form-group">
+      <img src="/icons/search.svg" alt="Sipariş Numarası" width="20" height="20" />
+      <input type="text" placeholder="Plaka Numarası" />
+    </section>
+    <section class="form-group">
+      <select>
+        <option disabled selected>{{ "Durum" }}</option>
+      </select>
+    </section>
+    <section class="form-group">
+      <select>
+        <option disabled selected>{{ "Dağıtım Durumu" }}</option>
+      </select>
+    </section>
+    <button class="roboto-medium" type="submit">{{ "Filtrele" }}</button>
+  </form>
+
+  <section class="datagrid">
+    @for (row of rows; track row) {
+      <section class="datagrid-header">{{ row }}</section>
+    }
+
+    @for(column of columns; track column.orderNo) {
+      <ng-container>
+        <section class="datagrid-content">{{ column.orderNo }}</section>
+        <section class="datagrid-content">{{ column.shipmentTrackingNo }}</section>
+        <section class="datagrid-content">{{ column.orderTrackingNo }}</section>
+        <section class="datagrid-content">{{ hideName(column.customerName) }}</section>
+        <section class="datagrid-content">{{ column.district }}</section>
+        <section class="datagrid-content">{{ column.plate }}</section>
+        <section class="datagrid-content">{{ column.releasedForDistribution }}</section>
+        <section class="datagrid-content">{{ status[column.Status] }}</section>
+        <section class="datagrid-content">{{ date(column.Date) }}</section>
+        <section class="datagrid-content">
+          <a [routerLink]="column.orderNo.toString()">{{ "Sipariş Detay" }}</a>
+        </section>
+      </ng-container>
+    }
+  </section>
+
+</main>

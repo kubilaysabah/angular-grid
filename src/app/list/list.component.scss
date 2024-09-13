@@ -1,0 +1,86 @@
+@import "../../assets/styles/variables";
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+form {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3rem;
+
+  @media(min-width: 1024px) {
+    grid-template-columns: repeat(4, minmax(auto, 1fr));
+  }
+
+  .form-group {
+    position: relative;
+
+    img {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 1rem;
+    }
+
+    img + input {
+      padding-left: 4rem;
+    }
+  }
+
+  button {
+    grid-column: span 1 / 5;
+    border-radius: 0.5rem;
+    border: 1px solid $primary;
+    background-color: $primary;
+    color: white;
+    cursor: pointer;
+    transition: all ease 0.3s;
+
+    &:hover {
+      background-color: darken($primary, 5%);
+      color: white;
+    }
+  }
+}
+
+.datagrid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(auto, 1fr));
+
+  .datagrid-header {
+    border-bottom: 1px solid $border;
+    color: $gray-text;
+    font-size: 1.4rem;
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:not(:nth-child(10)) {
+      border-right: 1px solid $border;
+    }
+  }
+
+  .datagrid-content {
+    font-size: 1.3rem;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid $border;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      display: block;
+      background-color: $success;
+      color: white;
+      max-width: fit-content;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+    }
+  }
+}

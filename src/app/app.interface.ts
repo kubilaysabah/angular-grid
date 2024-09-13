@@ -1,4 +1,4 @@
-export interface Data {
+export interface Customer {
   orderNo: number;
   shipmentTrackingNo: string;
   orderTrackingNo: string;
@@ -19,5 +19,5 @@ export default interface Response {
     notDelivered: number;
     completedOrder: string;
   };
-  dataTable: Data[]
+  dataTable: Customer[]
 }
