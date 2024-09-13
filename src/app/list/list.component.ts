@@ -11,10 +11,10 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 
-import {Subject, takeUntil} from "rxjs";
+import { Subject, takeUntil} from "rxjs";
 
-import {AppService} from '@app/app.service'
-import {type Customer} from '@app/app.interface'
+import { AppService} from '@app/app.service'
+import { type Customer } from '@app/app.interface'
 
 @Component({
   selector: 'app-list',
@@ -135,6 +135,19 @@ export class ListComponent implements OnInit, OnDestroy {
           console.error(error);
         }
       })
+  }
+
+  clearFilters(): void {
+    this.filters.controls.orderTrackingNo.reset();
+    this.filters.controls.shipmentTrackingNo.reset()
+    this.filters.controls.plate.reset();
+    this.filters.controls.status.reset();
+    this.filters.controls.releasedForDistribution.reset();
+
+    this.dateRange.controls.start.reset()
+    this.dateRange.controls.end.reset();
+
+    this.columns = this.customers.slice(0, this.paginator.pageSize);
   }
 
   filter(): void {

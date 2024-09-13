@@ -97,15 +97,21 @@ form {
 
   button.danger-button {
     display: block;
-    border-radius: 0.2rem;
     background: #BD2A2E;
     border: 1px solid #BD2A2E;
     color: #ffffff;
     font-size: 1rem;
     font-weight: 500;
+    height: 2.5rem;
+    border-radius: 2rem;
 
     &:not(:disabled) {
       cursor: pointer;
+    }
+
+    &:hover {
+      background-color: darken(#BD2A2E, 5%);
+      color: #ffffff;
     }
   }
 }
