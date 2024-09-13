@@ -16,24 +16,19 @@ form {
 
   @media(min-width: 1024px) {
     grid-template-columns: repeat(4, minmax(auto, 1fr));
-
-    button {
-      grid-column: span 1 / 5;
-    }
   }
 
-  .form-group {
-    position: relative;
+  button.danger-button {
+    display: block;
+    border-radius: 0.2rem;
+    background: #BD2A2E;
+    border: 1px solid #BD2A2E;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
 
-    img {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 1rem;
-    }
-
-    img + input {
-      padding-left: 4rem;
+    &:not(:disabled) {
+      cursor: pointer;
     }
   }
 }
