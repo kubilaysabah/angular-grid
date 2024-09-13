@@ -119,6 +119,7 @@ export class ListComponent implements OnInit, OnDestroy {
       status,
       plate
     } = this.filters.value;
+    const { end, start } = this.dateRange.value;
 
     this.columns = this.customers;
 
@@ -142,6 +143,14 @@ export class ListComponent implements OnInit, OnDestroy {
 
     if (plate) {
       this.columns = [...this.columns.filter((column) => column.plate.toLowerCase().includes(plate.toLowerCase()))]
+    }
+
+    if (start && end) {
+      this.columns = [...this.columns.filter((column) => {
+        const date = new Date(column.Date);
+
+        return date >= start && date <= end;
+      })]
     }
   }
 
@@ -172,7 +181,7 @@ export class ListComponent implements OnInit, OnDestroy {
   date(date: string): string {
     const selectedDate = new Date(date);
 
-    return `${this.dateParser(selectedDate.getDay())}.${this.dateParser(selectedDate.getMonth())}.${this.dateParser(selectedDate.getFullYear())}`
+    return `${this.dateParser(selectedDate.getDate())}.${this.dateParser(selectedDate.getMonth() + 1)}.${this.dateParser(selectedDate.getFullYear())}`
   }
 
   ngOnDestroy(): void {
