@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -48,6 +48,25 @@ import { type Customer } from '@app/app.interface'
 export class ListComponent implements OnInit, OnDestroy {
   private readonly onDestroy = new Subject<void>();
 
+  filters: FormGroup<{
+    shipmentTrackingNo: FormControl<string | null>;
+    orderTrackingNo: FormControl<string | null>;
+    plate: FormControl<string | null>;
+    status: FormControl<number | null>;
+    releasedForDistribution: FormControl<string | null>;
+  }> = new FormGroup({
+    shipmentTrackingNo: new FormControl(),
+    orderTrackingNo: new FormControl(),
+    plate: new FormControl(),
+    status: new FormControl(),
+    releasedForDistribution: new FormControl()
+  })
+
+  readonly dateRange = new FormGroup({
+    start: new FormControl(new Date(2024, 10, 13)),
+    end: new FormControl(new Date(2024, 10, 16)),
+  })
+
   customers: Customer[] = []
 
   paginator = {
@@ -73,11 +92,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
   columns: Customer[] = []
 
-  readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(2024, 10, 13)),
-    end: new FormControl(new Date(2024, 10, 16)),
-  });
-
   constructor(
     private appService: AppService,
   ) {
@@ -95,6 +109,40 @@ export class ListComponent implements OnInit, OnDestroy {
           console.error(error);
         }
       })
+  }
+
+  filter(): void {
+    const {
+      shipmentTrackingNo,
+      orderTrackingNo,
+      releasedForDistribution,
+      status,
+      plate
+    } = this.filters.value;
+
+    this.columns = this.customers;
+
+    if (shipmentTrackingNo) {
+      this.columns = [...this.columns.filter((column) => column.shipmentTrackingNo.toLowerCase().includes(shipmentTrackingNo.trim().toLowerCase()))]
+    }
+
+    if (orderTrackingNo) {
+      this.columns = [...this.columns.filter((column) => column.orderTrackingNo.toLowerCase().includes(orderTrackingNo.trim().toLowerCase()))];
+    }
+
+    if (releasedForDistribution) {
+      this.columns = [...this.columns.filter((column) => column.releasedForDistribution === releasedForDistribution)]
+    }
+
+    if (status !== undefined && status !== null) {
+      this.columns = this.columns.filter((column) =>
+        column.Status === status
+      );
+    }
+
+    if (plate) {
+      this.columns = [...this.columns.filter((column) => column.plate.toLowerCase().includes(plate.toLowerCase()))]
+    }
   }
 
   pageChangeEvent(event: PageEvent): void {

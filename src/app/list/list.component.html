@@ -1,26 +1,26 @@
 <main>
-  <h1 class="title roboto-bold">{{ "SİPARİŞ KONTROL EKRANI" }}</h1>
+  <h1 class="title">{{ "SİPARİŞ KONTROL EKRANI" }}</h1>
 
-  <form>
+  <form [formGroup]="filters" (submit)="filter()">
     <mat-form-field appearance="outline">
-      <input matInput placeholder="Gönderi Takip Numarası">
+      <input matInput placeholder="Gönderi Takip Numarası" formControlName="shipmentTrackingNo" />
       <mat-icon matSuffix>{{ "search" }}</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <input matInput placeholder="Sipariş Numarası">
+      <input matInput placeholder="Sipariş Numarası" formControlName="orderTrackingNo" />
       <mat-icon matSuffix>{{ "search" }}</mat-icon>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <input matInput placeholder="Plaka Numarası">
+      <input matInput placeholder="Plaka Numarası" formControlName="plate" />
       <mat-icon matSuffix>{{ "search" }}</mat-icon>
     </mat-form-field>
     <mat-form-field class="example-form-field">
       <mat-label>{{ "Tarih Aralığı  " }}</mat-label>
       <mat-date-range-input
-        [formGroup]="campaignOne"
+        [formGroup]="dateRange"
         [rangePicker]="campaignOnePicker"
-        [comparisonStart]="campaignOne.value.start"
-        [comparisonEnd]="campaignOne.value.end">
+        [comparisonStart]="dateRange.value.start"
+        [comparisonEnd]="dateRange.value.end">
         <input matStartDate placeholder="Start date" formControlName="start">
         <input matEndDate placeholder="End date" formControlName="end">
       </mat-date-range-input>
@@ -29,17 +29,17 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ "Durum" }}</mat-label>
-      <mat-select>
-        @for (item of status; track item) {
-          <mat-option>{{ item }}</mat-option>
+      <mat-select formControlName="status">
+        @for (item of status; track item; let idx = $index) {
+          <mat-option [value]="idx">{{ item }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ "Dağıtım Durumu" }}</mat-label>
-      <mat-select>
-        <mat-option value="0">{{ "Dağıtıma Çıkarıldı" }}</mat-option>
-        <mat-option value="1">{{ "Dağıtıma Çıkarılmadı" }}</mat-option>
+      <mat-select formControlName="releasedForDistribution">
+        <mat-option value="EVET">{{ "Dağıtıma Çıkarıldı" }}</mat-option>
+        <mat-option value="HAYIR">{{ "Dağıtıma Çıkarılmadı" }}</mat-option>
       </mat-select>
     </mat-form-field>
     <button mat-flat-button class="roboto-medium" type="submit">{{ "Filtrele" }}</button>
