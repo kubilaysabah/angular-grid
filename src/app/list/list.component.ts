@@ -1,5 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
+import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
+
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatAnchor, MatButtonModule } from "@angular/material/button";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
 
 import { takeUntil, Subject } from "rxjs";
 
@@ -10,16 +20,41 @@ import { type Customer } from '@app/app.interface'
   selector: 'app-list',
   standalone: true,
   imports: [
-    RouterLink
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    MatButtonModule,
+    MatAnchor,
+    MatIconModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatSelectModule,
+    MatPaginatorModule
   ],
   providers: [
-    AppService
+    AppService,
+    provideNativeDateAdapter(),
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        appearance: 'outline'
+      }
+    }
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
 export class ListComponent implements OnInit, OnDestroy {
   private readonly onDestroy = new Subject<void>();
+
+  customers: Customer[] = []
+
+  paginator = {
+    pageIndex: 0,
+    pageSize: 5,
+    pageSizeOptions: [5, 10, 20]
+  }
 
   status = ['Oluşturuldu', 'İptal Edildi', 'Teslim Edildi', 'Bekliyor', 'Teslim Edilemedi']
 
@@ -36,7 +71,12 @@ export class ListComponent implements OnInit, OnDestroy {
     "Siparş Detay"
   ];
 
-  columns:Customer[] = []
+  columns: Customer[] = []
+
+  readonly campaignOne = new FormGroup({
+    start: new FormControl(new Date(2024, 10, 13)),
+    end: new FormControl(new Date(2024, 10, 16)),
+  });
 
   constructor(
     private appService: AppService,
@@ -48,12 +88,27 @@ export class ListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy))
       .subscribe({
         next: (customers) => {
-          this.columns = customers;
+          this.customers = customers;
+          this.columns = customers.slice(0, this.paginator.pageSize);
         },
         error: (error) => {
           console.error(error);
         }
       })
+  }
+
+  pageChangeEvent(event: PageEvent): void {
+    this.paginator.pageIndex = event.pageIndex;
+    this.paginator.pageSize = event.pageSize;
+
+    const startIndex = event.pageIndex * event.pageSize;
+    let endIndex = startIndex + event.pageSize;
+
+    if (endIndex > this.customers.length){
+      endIndex = this.customers.length;
+    }
+
+    this.columns = this.customers.slice(startIndex, endIndex);
   }
 
   hideName(fullName: string): string {
@@ -62,7 +117,7 @@ export class ListComponent implements OnInit, OnDestroy {
     return `${customer[0]} ${surname[0]}***`
   }
 
-  dateParser(value: number) {
+  dateParser(value: number): string | number {
     return value > 10 ? value : `0${value}`;
   }
 
@@ -72,7 +127,7 @@ export class ListComponent implements OnInit, OnDestroy {
     return `${this.dateParser(selectedDate.getDay())}.${this.dateParser(selectedDate.getMonth())}.${this.dateParser(selectedDate.getFullYear())}`
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.complete();
   }

@@ -2,29 +2,47 @@
   <h1 class="title roboto-bold">{{ "SİPARİŞ KONTROL EKRANI" }}</h1>
 
   <form>
-    <section class="form-group">
-      <img src="/icons/search.svg" alt="Gönderi Numarası" width="20" height="20" />
-      <input type="text" placeholder="Gönderi Numarası" />
-    </section>
-    <section class="form-group">
-      <img src="/icons/search.svg" alt="Sipariş Numarası" width="20" height="20" />
-      <input type="text" placeholder="Sipariş Numarası" />
-    </section>
-    <section class="form-group">
-      <img src="/icons/search.svg" alt="Sipariş Numarası" width="20" height="20" />
-      <input type="text" placeholder="Plaka Numarası" />
-    </section>
-    <section class="form-group">
-      <select>
-        <option disabled selected>{{ "Durum" }}</option>
-      </select>
-    </section>
-    <section class="form-group">
-      <select>
-        <option disabled selected>{{ "Dağıtım Durumu" }}</option>
-      </select>
-    </section>
-    <button class="roboto-medium" type="submit">{{ "Filtrele" }}</button>
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Gönderi Takip Numarası">
+      <mat-icon matSuffix>{{ "search" }}</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Sipariş Numarası">
+      <mat-icon matSuffix>{{ "search" }}</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Plaka Numarası">
+      <mat-icon matSuffix>{{ "search" }}</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="example-form-field">
+      <mat-label>{{ "Tarih Aralığı  " }}</mat-label>
+      <mat-date-range-input
+        [formGroup]="campaignOne"
+        [rangePicker]="campaignOnePicker"
+        [comparisonStart]="campaignOne.value.start"
+        [comparisonEnd]="campaignOne.value.end">
+        <input matStartDate placeholder="Start date" formControlName="start">
+        <input matEndDate placeholder="End date" formControlName="end">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ "Durum" }}</mat-label>
+      <mat-select>
+        @for (item of status; track item) {
+          <mat-option>{{ item }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ "Dağıtım Durumu" }}</mat-label>
+      <mat-select>
+        <mat-option value="0">{{ "Dağıtıma Çıkarıldı" }}</mat-option>
+        <mat-option value="1">{{ "Dağıtıma Çıkarılmadı" }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-flat-button class="roboto-medium" type="submit">{{ "Filtrele" }}</button>
   </form>
 
   <section class="datagrid">
@@ -50,4 +68,13 @@
     }
   </section>
 
+  <mat-paginator
+    (page)="pageChangeEvent($event)"
+    [length]="customers.length"
+    [pageSize]="paginator.pageSize"
+    [pageIndex]="paginator.pageIndex"
+    [pageSizeOptions]="paginator.pageSizeOptions"
+    showFirstLastButtons
+    aria-label="Select page"
+  />
 </main>
