@@ -6,7 +6,11 @@ export const routes: Routes = [
     loadComponent: () => import('./list/list.component').then(c => c.ListComponent)
   },
   {
-    path: ':id',
+    path: 'detail/:id',
     loadComponent: () => import('./detail/detail.component').then(c => c.DetailComponent),
+  },
+  {
+    path: "**",
+    redirectTo: ""
   }
 ];

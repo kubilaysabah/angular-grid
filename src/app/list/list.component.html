@@ -1,4 +1,18 @@
 <main>
+
+  <section class="card-container">
+    @for(card of cards; track card.title) {
+      <section class="card">
+        <div class="card-title">{{ card.title }}</div>
+        <div class="card-description">{{ card.description }}</div>
+      </section>
+    }
+  </section>
+
+  <div class="progress">
+    <span>{{ "TAMAMLANAN SİPARİŞ 400/300" }}</span>
+  </div>
+
   <h1 class="title">{{ "SİPARİŞ KONTROL EKRANI" }}</h1>
 
   <form [formGroup]="filters" (submit)="filter()">
@@ -63,7 +77,7 @@
         <section class="datagrid-content">{{ status[column.Status] }}</section>
         <section class="datagrid-content">{{ date(column.Date) }}</section>
         <section class="datagrid-content">
-          <a [routerLink]="column.orderNo.toString()">{{ "Sipariş Detay" }}</a>
+          <a [routerLink]="['/detail', column.orderNo.toString()]">{{ "Sipariş Detay" }}</a>
         </section>
       </ng-container>
     }

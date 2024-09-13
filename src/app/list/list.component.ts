@@ -1,20 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterLink } from "@angular/router";
-import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {RouterLink} from "@angular/router";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatAnchor, MatButtonModule } from "@angular/material/button";
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatIconModule } from '@angular/material/icon';
+import {provideNativeDateAdapter} from '@angular/material/core';
+import {MatAnchor, MatButtonModule} from "@angular/material/button";
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
 
-import { takeUntil, Subject } from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 
-import { AppService } from '@app/app.service'
-import { type Customer } from '@app/app.interface'
+import {AppService} from '@app/app.service'
+import {type Customer} from '@app/app.interface'
 
 @Component({
   selector: 'app-list',
@@ -43,10 +43,33 @@ import { type Customer } from '@app/app.interface'
     }
   ],
   templateUrl: './list.component.html',
-  styleUrl: './list.component.scss'
+  styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit, OnDestroy {
   private readonly onDestroy = new Subject<void>();
+
+  cards = [
+    {
+      title: "Rotadaki Paket",
+      description: "721"
+    },
+    {
+      title: "DM Paket Sayısı",
+      description: "367"
+    },
+    {
+      title: "Dağıtıma Çıkan Paket",
+      description: "250"
+    },
+    {
+      title: "Teslim Edildi",
+      description: "120"
+    },
+    {
+      title: "Teslim Edilemedi",
+      description: "20"
+    }
+  ]
 
   filters: FormGroup<{
     shipmentTrackingNo: FormControl<string | null>;
