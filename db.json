@@ -159,7 +159,7 @@
       "customerName": "Uğur Kılıç",
       "district": "Fatih",
       "plate": "34NN654",
-      "Status": 3,
+      "Status": 4,
       "releasedForDistribution": "HAYIR",
       "Date": "2024-09-12T22:25:30.987654"
     },
@@ -291,7 +291,7 @@
       "customerName": "Mustafa Akbulut",
       "district": "Esenler",
       "plate": "34ZZ654",
-      "Status": 3,
+      "Status": 4,
       "releasedForDistribution": "HAYIR",
       "Date": "2024-09-13T10:30:30.987654"
     },

@@ -62,9 +62,12 @@ export class ListComponent implements OnInit, OnDestroy {
     releasedForDistribution: new FormControl()
   })
 
-  readonly dateRange = new FormGroup({
-    start: new FormControl(new Date(2024, 10, 13)),
-    end: new FormControl(new Date(2024, 10, 16)),
+  readonly dateRange: FormGroup<{
+    start: FormControl<Date | null>;
+    end: FormControl<Date | null>;
+  }> = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
   })
 
   customers: Customer[] = []
